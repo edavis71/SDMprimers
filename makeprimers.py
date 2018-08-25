@@ -1,6 +1,7 @@
 #!/Users/emilydavis/anaconda/bin/python
 
 # IMPORTS
+import re
 from pprint import pprint
 import copy
 import sys
@@ -78,9 +79,44 @@ codons = { 'ATT' : 'I',
 
 
 # FUNCTION DEFINITIONS
+def validate_mutation(variant, cdna_pre, cdna_post):
+    aa_position = variant[0][1:]
+    aa_position = int(re.sub('[^0-9]','', aa_position)) - 1
+    aa_pre      = variant[0][0]
+    aa_post     = variant[0][-1]
 
-def validate_mutations(cdna_pre, cdna_post, protein_change):
-    return 0
+    # build protein sequence pre-mutation
+    cdna_pre_c  = copy.deepcopy(cdna_pre)
+    protein_pre = ''
+    while len(cdna_pre_c) != 0:
+        subseq = codons["".join(cdna_pre_c[0:3])]
+        protein_pre += subseq
+        del cdna_pre_c[0:3]
+
+    # build protein sequence post-mutation
+    cdna_post_c = copy.deepcopy(cdna_post)
+    protein_post= ''
+    while len(cdna_post_c) != 0:
+        subseq = codons["".join(cdna_post_c[0:3])]
+        protein_post += subseq
+        del cdna_post_c[0:3]
+    
+    result = False
+    # validate based on variant action
+    act = variant[1]
+    if act == 'ins':
+        if len(protein_pre) < len(protein_post):
+            result = True
+    elif act == 'del':
+        if len(protein_pre) > len(protein_post):
+            result = True
+    elif act == 'mut':
+        if protein_post[aa_position] == aa_post and protein_pre[aa_position] == aa_pre:
+            result = True
+        else:
+            correction = aa_pre + str(aa_position) + protein_post[aa_position]
+            print("warning: found mismatch %s is actually %s" % (variant[5].strip(), correction))
+    return result
 
 def reverse_primers(primers_scored):
     complements = { 'A' : 'T',
@@ -179,6 +215,7 @@ def do_mutation(vars, cdna):
                 del cdna_copy[idx-1]
         elif act == "mut":
             cdna_copy[idx - 1] = val
+        result = validate_mutation(var, cdna, cdna_copy)
         subseq_pre = cdna[idx-basepair:idx+basepair]
         subseq_post = cdna_copy[idx-basepair:idx+basepair]
         # print var
