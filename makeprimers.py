@@ -10,7 +10,78 @@ from operator import itemgetter
 # GLOBALS
 basepair = 60
 
+codons = { 'ATT' : 'I',
+           'ATC' : 'I',
+           'ATA' : 'I',
+           'CTT' : 'L',
+           'CTC' : 'L',
+           'CTA' : 'L',
+           'CTG' : 'L',
+           'TTA' : 'L',
+           'TTG' : 'L',
+           'GTT' : 'V',
+           'GTC' : 'V',
+           'GTA' : 'V',
+           'GTG' : 'V',
+           'TTT' : 'F',
+           'TTC' : 'F',
+           'ATG' : 'M',
+           'TGT' : 'C',
+           'TGC' : 'C',
+           'GCT' : 'A',
+           'GCC' : 'A',
+           'GCA' : 'A',
+           'GCG' : 'A',
+           'GGT' : 'G',
+           'GGC' : 'G',
+           'GGA' : 'G',
+           'GGG' : 'G',
+           'CCT' : 'P',
+           'CCC' : 'P',
+           'CCA' : 'P',
+           'CCG' : 'P',
+           'ACT' : 'T',
+           'ACC' : 'T',
+           'ACA' : 'T',
+           'ACG' : 'T',
+           'TCT' : 'S',
+           'TCC' : 'S',
+           'TCA' : 'S',
+           'TCG' : 'S',
+           'AGT' : 'S',
+           'AGC' : 'S',
+           'TAT' : 'Y',
+           'TAC' : 'Y',
+           'TGG' : 'W',
+           'CAA' : 'Q',
+           'CAG' : 'Q',
+           'AAT' : 'N',
+           'AAC' : 'N',
+           'CAT' : 'H',
+           'CAC' : 'H',
+           'GAA' : 'E',
+           'GAG' : 'E',
+           'GAT' : 'D',
+           'GAC' : 'D',
+           'AAA' : 'K',
+           'AAG' : 'K',
+           'CGT' : 'R',
+           'CGC' : 'R',
+           'CGA' : 'R',
+           'CGG' : 'R',
+           'AGA' : 'R',
+           'AGG' : 'R',
+           'TAA' : 'Stop',
+           'TAG' : 'Stop',
+           'TGA' : 'Stop'
+        }
+
+
 # FUNCTION DEFINITIONS
+
+def validate_mutations(cdna_pre, cdna_post, protein_change):
+    return 0
+
 def reverse_primers(primers_scored):
     complements = { 'A' : 'T',
                     'T' : 'A',
@@ -214,15 +285,16 @@ def main(argv):
 
     with open("primers.txt", 'w') as f:
         for var, primer_info in primers_scored.items():
+            f.write('-' * 50 + "\n")
             f.write((var[5]) + "\n")
             # for primer in primer_info:
                 # primer[1] = float(primer[1])
             primer_info = sorted(primer_info, key=itemgetter(1))
-            # iterate over all primers
+            # iterate over all primer pairs
             for primer in primer_info:
                 # iterate over the forward and reverse of the primer
                 for p in primer:
-                    f.write(str(len(p[0])) + str(p) + '| ' + var[1] + ' SDM ' + ' R ' + p[0] + ' 25nm ' + 'STD\n')
+                    f.write(str(len(p[0])) + ' ' +str(p) + '| ' + var[0] + ' SDM ' + ' R ' + p[0] + ' 25nm ' + 'STD\n')
                 f.write('\n')
 
 def usage():
