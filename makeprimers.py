@@ -1,4 +1,7 @@
+#!/Users/emilydavis/anaconda/bin/python
+
 # IMPORTS
+from pprint import pprint
 import copy
 import sys
 from operator import itemgetter
@@ -172,24 +175,28 @@ def readvariants(fname):
     return list
 
 def main(argv):
+    # list of hgvs changes
     variants_file = argv[1]
+
+    # reference file
     cdna_file     = argv[2]
 
     # vars is a list of tuples (var, act, beg, end, val) 
     vars = readvariants(variants_file)
-    
-    # cdna is a string of the cdna
+
+    # cdna is a list of characters of the cdna where each character is {A, T, C, G}
     cdna = readcdnas(cdna_file)
     
+    # seqs is a list of characters with the mutated cdna/base 
     seqs = do_mutation(vars, cdna)
 
     # sdm_seqs is a list of tuples(vars, seq)
     # sdm_seqs = gen_subseqs(vars, cdna)
     
-    # primers is a dictionary of {variant : list of primer candidates)
+    # primer_candidates is a dictionary of {variant : list of primer candidates)
     # where a primer candidate is of a specified length and terminates in either C or G
     primer_candidates = calc_primers(seqs)
-    
+
     primers_reversed = reverse_primers(primer_candidates)
 
     primers_scored = score_primers(primers_reversed)
@@ -248,7 +255,7 @@ def main(argv):
         print('')
 
 def usage():
-    print "give me file names"
+    print "./makeprimers.py <variants_file> <cdna_file>"
     return 0
 
 if __name__ == "__main__":
