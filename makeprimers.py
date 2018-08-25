@@ -4,6 +4,7 @@
 from pprint import pprint
 import copy
 import sys
+import json
 from operator import itemgetter
 
 # GLOBALS
@@ -61,6 +62,7 @@ def calc_tm(primer, gc_score):
 
 def count_gc(primer):
     gc_count = 0
+    # only count G and C in the last 5 bases
     primer = primer[-5:]
     for p in primer:
         if p == 'G' or p == 'C':
@@ -72,13 +74,18 @@ def score_primers(primers):
     for var, primer in primers.items():
          primers_final = []
          for p in primer:
+            # calculate gc and tm scores of forward sequence
             gc_score   = calc_gc(p[0])
             tm_score   = calc_tm(p[0], gc_score)
+            # calculate gc and tm scores of reverse sequence
             gc_score_r = calc_gc(p[1])
             tm_score_r = calc_tm(p[1], gc_score_r)
+            # get the gc count for the forward sequence
             gc_count   = count_gc(p[0])
-            x = (p[0], tm_score, gc_score, gc_count)
-            y = (p[1], tm_score_r, gc_score_r)
+            # uncomment and comment lines depending if gc_count is needed
+            # x = (p[0], tm_score, gc_score, gc_count)
+            x = ("".join(p[0]), tm_score, gc_score)
+            y = ("".join(p[1]), tm_score_r, gc_score_r)
             if tm_score < 65.0 or gc_count == 0 or p[0][-1] == 'A' or p[0][-1] == 'T':
                 continue
             primers_final.append((x,y))
@@ -146,11 +153,15 @@ def readcdnas(fname):
         contents = f.readlines()
     return list(contents[0].rstrip())
 
+def reformatvariant(var):
+    return formatted_variant
+
 def readvariants(fname):
     with open(fname, 'r') as f:
         contents = f.readlines()
         list = []
         for line in contents:
+            line_original = line
             var = line[:line.find("c.")].strip()
             line = line[line.find("c.") + 2:].rstrip()
             if "ins" in line:
@@ -171,7 +182,7 @@ def readvariants(fname):
             else:
                 print "error in file"
                 exit(-1)
-            list.append((var, act, beg, end, val))
+            list.append((var, act, beg, end, val, line_original))
     return list
 
 def main(argv):
@@ -201,58 +212,18 @@ def main(argv):
 
     primers_scored = score_primers(primers_reversed)
 
-    outfile = open("primers.txt", 'w')
-    
-    idx = 0
-    for i, j in primers_scored.items():
-        idx += 1
-        outfile.write(str(idx))
-        outfile.write(',')
-        for h in i:
-            outfile.write(str(h))
-            outfile.write(',')
-        outfile.write('\n')
-        for k in j:
-            outfile.write("".join(k[0][0]))
-            outfile.write(',')
-            for h in k[0][1:]:
-                outfile.write(str(h))
-                outfile.write(',')
-            outfile.write('\n')
-            outfile.write("".join(k[1][0]))
-            outfile.write(',')
-            for h in k[1][1:]:
-                outfile.write(str(h))
-                outfile.write(',')
-            outfile.write('\n')
-        outfile.write('\n')
-
-    outfile.close()
-
-    with open('primers.txt', 'r') as f:
-        contents = f.readlines()
-        primers = {}
-        for line in contents:
-            if line[0] == '\n':
-                continue
-            line = line.rstrip()
-            if line[0].isdigit() == True:
-                key = tuple(line.split(',')[:-1])
-                primers[key] = []
-            elif line[0].isdigit() == False:
-                primers[key].append(line.split(',')[:-1])
-
-    for i, j in primers.items():
-        print i
-        for k in j:
-            k[1] = float(k[1])
-        j = sorted(j, key=itemgetter(1))
-        for k in j:
-            if len(k) == 4:
-                print len(k[0]), k, '| ' + i[1] + ' SDM ' + ' F ' + k[0] + ' 25nm ' + 'STD'
-            if len(k) == 3:
-                print len(k[0]), k, '| ' + i[1] + ' SDM ' + ' R ' + k[0] + ' 25nm ' + 'STD'
-        print('')
+    with open("primers.txt", 'w') as f:
+        for var, primer_info in primers_scored.items():
+            f.write((var[5]) + "\n")
+            # for primer in primer_info:
+                # primer[1] = float(primer[1])
+            primer_info = sorted(primer_info, key=itemgetter(1))
+            # iterate over all primers
+            for primer in primer_info:
+                # iterate over the forward and reverse of the primer
+                for p in primer:
+                    f.write(str(len(p[0])) + str(p) + '| ' + var[1] + ' SDM ' + ' R ' + p[0] + ' 25nm ' + 'STD\n')
+                f.write('\n')
 
 def usage():
     print "./makeprimers.py <variants_file> <cdna_file>"
