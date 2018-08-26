@@ -115,7 +115,16 @@ def validate_mutation(variant, cdna_pre, cdna_post):
                 print("warning: found mismatch. insertion is actually at position %d for %s" % (aa_position_calculated, variant[5].strip()))
     elif act == 'del':
         if len(protein_pre) > len(protein_post):
-            result = True
+            aa_delete_begin_calc = math.ceil((float(variant[2]) / 3.0) + 1.0)
+            aa_delete_end_calc = math.ceil((float(variant[3]) / 3.0))
+            # parsing is based on variant[0] is 'A1004_A1006del'
+            aa_delete_begin = variant[0][1:variant[0].find('_')] 
+            aa_delete_end   = variant[0][variant[0].find('_') + 2:re.search("del", variant[0]).start()]
+            if aa_delete_begin_calc == float(aa_delete_begin) and aa_delete_end_calc == float(aa_delete_end):
+                result = True
+            else:
+                print("warning: found mismatch. deletion is actually between %d and %d for %s" % (aa_delete_begin_calc, aa_delete_end_calc, variant[5].strip()))
+                
     elif act == 'mut':
         if protein_post[aa_position] == aa_post and protein_pre[aa_position] == aa_pre:
             result = True
