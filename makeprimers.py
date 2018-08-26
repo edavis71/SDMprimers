@@ -1,6 +1,7 @@
 #!/Users/emilydavis/anaconda/bin/python
 
 # IMPORTS
+import math
 import re
 from pprint import pprint
 import copy
@@ -102,11 +103,16 @@ def validate_mutation(variant, cdna_pre, cdna_post):
         del cdna_post_c[0:3]
     
     result = False
+    # TODO: move warnings to somewhere else so that we can iterate over all variants without doing file io
     # validate based on variant action
     act = variant[1]
     if act == 'ins':
         if len(protein_pre) < len(protein_post):
-            result = True
+            aa_position_calculated = math.ceil((float(variant[2]) / 3.0) + 1.0)
+            if aa_position == aa_position_calculated:
+                result = True
+            else:
+                print("warning: found mismatch. insertion is actually at position %d for %s" % (aa_position_calculated, variant[5].strip()))
     elif act == 'del':
         if len(protein_pre) > len(protein_post):
             result = True
