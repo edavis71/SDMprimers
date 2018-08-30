@@ -347,9 +347,8 @@ def main(argv):
             primer_info = sorted(primer_info, key=itemgetter(1))
             # iterate over all primer pairs
             for primer in primer_info:
-                # iterate over the forward and reverse of the primer
-                for p in primer:
-                    f.write(str(len(p[0])) + ' ' +str(p) + '| ' + var[0] + ' SDM ' + ' R ' + p[0] + ' 25nm ' + 'STD\n')
+                f.write(str(len(primer[0][0])) + ' ' +str(primer[0]) + ' | ' + var[0] + ' SDM ' + ' F ' + primer[0][0] + ' 25nm ' + 'STD\n')
+                f.write(str(len(primer[1][0])) + ' ' +str(primer[1]) + ' | ' + var[0] + ' SDM ' + ' R ' + primer[1][0] + ' 25nm ' + 'STD\n')
                 f.write('\n')
 
 def usage():
