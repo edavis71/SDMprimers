@@ -21,19 +21,19 @@ A text file containing the annotation for the protein change and HGVS nomenclatu
 Run the program as shown below
 
 ```
-./makeprimers.py ../test.txt ../cdna.txt
+./makeprimers.py /variants.txt /cdna.txt
 ```
 
 ### Output
 
-Two files are returned, one containing any mismatches between protein annotation and HGVS change and one containing a list of forward and reverse primer pairs for each variant, along with their estimated melting temperature and GC content. Primers are formatted so that once you've chosen which to order based on your needs you can copy and paste the information directly into idt for bulk ordering.
+Two files are returned, one containing any mismatches between protein annotation and HGVS change and one containing a list of forward and reverse primer pairs for each variant, along with their estimated melting temperature and GC content. Primers are formatted so that once you've chosen which pair to order based on your needs you can copy and paste the information directly into idt for bulk ordering.
 
+Y569D c.1705T>G
 
-| Protein | HGVS | 
-| --- | --- |
-| Y569D | c.1705T>G |
-| L138ins | c.411_412insCTA |
-| A1004_A1006del | c.3009_3017delAGCTATAGC |
+| length | primer sequence | Tm | GC | format for IDT |
+| --- | --- | --- | --- | --- |
+| 47 | 'GCAGTATACAAAGATGCTGATTTGGATTTATTAGACTCTCCTTTTGG' | 65.42 | 36.17 | Y569D SDM  F GCAGTATACAAAGATGCTGATTTGGATTTATTAGACTCTCCTTTTGG 25nm STD |
+| 47 | 'CCAAAAGGAGAGTCTAATAAATCCAAATCAGCATCTTTGTATACTGC' | 65.42 | 36.17 | Y569D SDM  R CCAAAAGGAGAGTCTAATAAATCCAAATCAGCATCTTTGTATACTGC 25nm STD |
 
 ## Feedback
 
