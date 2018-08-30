@@ -5,7 +5,7 @@ This program was created to automate the design of site directed mutagenesis (SD
 
 ### Prerequisites
 
-This program was implemented for use with python version HERE
+This program was implemented for use with python version 2.7
 
 A text file containing the annotation for the protein change and HGVS nomenclature for each variant you want to design primers for is required as input along with a text file containing the cDNA sequence for the respective gene. 
 
