@@ -26,7 +26,7 @@ Run the program as shown below
 
 ### Output
 
-Two files are returned, one containing any mismatches between protein annotation and HGVS change and one containing a list of forward and reverse primer pairs for each variant, along with their estimated melting temperature and GC content. Primers are formatted so that once you've chosen which pair to order based on your needs you can copy and paste the information directly into idt for bulk ordering.
+Two files are returned, one containing any mismatches between protein annotation and HGVS change and one containing a list of forward and reverse primer pairs for each variant, along with their estimated melting temperature and GC content. Primers are formatted so that once you've chosen which pair to order based on your needs you can copy and paste the information directly into IDT for bulk ordering.
 
 Y569D c.1705T>G
 
