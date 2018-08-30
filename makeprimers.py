@@ -82,7 +82,7 @@ codons = { 'ATT' : 'I',
 # FUNCTION DEFINITIONS
 def validate_mutation(variant, cdna_pre, cdna_post):
     aa_position = variant[0][1:]
-    aa_position = int(re.sub('[^0-9]','', aa_position)) - 1
+    aa_position = int(re.sub('[^0-9]','', aa_position))
     aa_pre      = variant[0][0]
     aa_post     = variant[0][-1]
 
@@ -112,6 +112,8 @@ def validate_mutation(variant, cdna_pre, cdna_post):
             if aa_position == aa_position_calculated:
                 result = True
             else:
+                print(aa_position)
+                print(aa_position_calculated)
                 print("warning: found mismatch. insertion is actually at position %d for %s" % (aa_position_calculated, variant[5].strip()))
     elif act == 'del':
         if len(protein_pre) > len(protein_post):
@@ -126,10 +128,11 @@ def validate_mutation(variant, cdna_pre, cdna_post):
                 print("warning: found mismatch. deletion is actually between %d and %d for %s" % (aa_delete_begin_calc, aa_delete_end_calc, variant[5].strip()))
                 
     elif act == 'mut':
-        if protein_post[aa_position] == aa_post and protein_pre[aa_position] == aa_pre:
+        aa_position_calculated = int(math.ceil((float(variant[2]) / 3.0)))
+        if protein_post[aa_position - 1] == aa_post and protein_pre[aa_position - 1] == aa_pre:
             result = True
         else:
-            correction = aa_pre + str(aa_position) + protein_post[aa_position]
+            correction = aa_pre + str(aa_position_calculated) + protein_post[aa_position_calculated - 1]
             print("warning: found mismatch %s is actually %s" % (variant[5].strip(), correction))
     return result
 
