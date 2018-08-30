@@ -43,7 +43,7 @@ Please send feedback to Emily Davis:
 
 ## Acknowledgments
 
-This code was originally designed for simplifying and eliminating human error in designing primers used in creating mutant CFTR cell lines. I thank everyone in the Cutting lab for their support and inspiration. 
+This code was originally designed for simplifying and eliminating human error in designing primers used in creating variant CFTR cell lines. I thank everyone in the Cutting lab for their support and inspiration. 
 
 ## References
 
