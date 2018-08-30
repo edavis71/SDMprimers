@@ -21,7 +21,7 @@ A text file containing the annotation for the protein change and HGVS nomenclatu
 Run the program as shown below
 
 ```
-`./makeprimers.py ../test.txt ../cdna.txt`
+./makeprimers.py ../test.txt ../cdna.txt
 ```
 
 ### Output
