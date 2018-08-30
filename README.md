@@ -10,11 +10,11 @@ This program was implemented for use with python version HERE
 A text file containing the annotation for the protein change and HGVS nomenclature for each variant you want to design primers for is required as input along with a text file containing the cDNA sequence for the respective gene. 
 
 
-Protein | HGVS 
---- | --- | ---
-Y569D | c.1705T>G
-L138ins | c.411_412insCTA
-A1004_A1006del | c.3009_3017delAGCTATAGC
+| Protein | HGVS |
+| --- | --- |
+| Y569D | c.1705T>G |
+| L138ins | c.411_412insCTA |
+| A1004_A1006del | c.3009_3017delAGCTATAGC |
 
 ### Running 
 
@@ -29,11 +29,11 @@ Run the program as shown below
 Two files are returned, one containing any mismatches between protein annotation and HGVS change and one containing a list of forward and reverse primer pairs for each variant, along with their estimated melting temperature and GC content. Primers are formatted so that once you've chosen which to order based on your needs you can copy and paste the information directly into idt for bulk ordering.
 
 
-Protein | HGVS 
---- | --- | ---
-Y569D | c.1705T>G
-L138ins | c.411_412insCTA
-A1004_A1006del | c.3009_3017delAGCTATAGC
+| Protein | HGVS | 
+| --- | --- |
+| Y569D | c.1705T>G |
+| L138ins | c.411_412insCTA |
+| A1004_A1006del | c.3009_3017delAGCTATAGC |
 
 
 ### Break down into end to end tests
@@ -76,9 +76,11 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
-## License
+## Feedback
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+Please send feedback to Emily Davis
+<edavis71@jhu.edu>
+
 
 ## Acknowledgments
 
