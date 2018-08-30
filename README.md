@@ -30,14 +30,12 @@ Run the program as shown below
 
 Two files are returned, one containing any mismatches between protein annotation and HGVS change and one containing a list of forward and reverse primer pairs for each variant, along with their estimated melting temperature and GC content. Primers are formatted so that once you've chosen which to order based on your needs you can copy and paste the information directly into idt for bulk ordering.
 
-```
+
 Protein | HGVS 
 --- | --- | ---
 Y569D | c.1705T>G
 L138ins | c.411_412insCTA
 A1004_A1006del | c.3009_3017delAGCTATAGC
-
-```
 
 
 ### Break down into end to end tests
