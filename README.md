@@ -5,88 +5,49 @@ This program was created to automate the design of site directed mutagenesis (SD
 
 ### Prerequisites
 
-This program was implemented for use with python version HERE
+This program was implemented for use with python version 2.7
 
 A text file containing the annotation for the protein change and HGVS nomenclature for each variant you want to design primers for is required as input along with a text file containing the cDNA sequence for the respective gene. 
 
-```
-Protein | HGVS 
---- | --- | ---
-Y569D | c.1705T>G
-L138ins | c.411_412insCTA
-A1004_A1006del | c.3009_3017delAGCTATAGC
 
-```
+| Protein | HGVS |
+| --- | --- |
+| Y569D | c.1705T>G |
+| L138ins | c.411_412insCTA |
+| A1004_A1006del | c.3009_3017delAGCTATAGC |
 
 ### Running 
 
 Run the program as shown below
 
 ```
-`./makeprimers.py ../test.txt ../cdna.txt`
+./makeprimers.py /variants.txt /cdna.txt
 ```
 
 ### Output
 
-Two files are returned, one containing any mismatches between protein annotation and HGVS change and one containing a list of forward and reverse primer pairs for each variant, along with their estimated melting temperature and GC content. Primers are formatted so that once you've chosen which to order based on your needs you can copy and paste the information directly into idt for bulk ordering.
+Two files are returned, one containing any mismatches between protein annotation and HGVS change and one containing a list of forward and reverse primer pairs for each variant, along with their estimated melting temperature and GC content. Primers are formatted so that once you've chosen which pair to order based on your needs you can copy and paste the information directly into IDT for bulk ordering.
 
-```
-Protein | HGVS 
---- | --- | ---
-Y569D | c.1705T>G
-L138ins | c.411_412insCTA
-A1004_A1006del | c.3009_3017delAGCTATAGC
+Y569D c.1705T>G
 
-```
+| length | primer sequence | Tm | GC | format for IDT |
+| --- | --- | --- | --- | --- |
+| 47 | 'GCAGTATACAAAGATGCTGATTTGGATTTATTAGACTCTCCTTTTGG' | 65.42 | 36.17 | Y569D SDM  F GCAGTATACAAAGATGCTGATTTGGATTTATTAGACTCTCCTTTTGG 25nm STD |
+| 47 | 'CCAAAAGGAGAGTCTAATAAATCCAAATCAGCATCTTTGTATACTGC' | 65.42 | 36.17 | Y569D SDM  R CCAAAAGGAGAGTCTAATAAATCCAAATCAGCATCTTTGTATACTGC 25nm STD |
 
+## Feedback
 
-### Break down into end to end tests
+Please send feedback to Emily Davis:
+<edavis71@jhu.edu>
 
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
-## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
-
-## Authors
-
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Acknowledgments
 
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+This code was originally designed for simplifying and eliminating human error in designing primers used in creating variant CFTR cell lines. I thank everyone in the Cutting lab for their support and inspiration. 
+
+## References
+
+* [Functional Assays Are Essential for Interpretation of Missense Variants Associated with Variable Expressivity. Am J Hum Genet. 2018 Jun 7;102(6):1062-1077](https://www.sciencedirect.com/science/article/pii/S0002929718301356)
+
+
 
