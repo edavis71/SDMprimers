@@ -37,7 +37,7 @@ Y569D c.1705T>G
 
 ## Feedback
 
-Please send feedback to Emily Davis
+Please send feedback to Emily Davis:
 <edavis71@jhu.edu>
 
 
