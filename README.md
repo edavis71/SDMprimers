@@ -47,3 +47,6 @@ This code was originally designed for simplifying and eliminating human error in
 
 ## References
 
+* [Functional Assays Are Essential for Interpretation of Missense Variants Associated with Variable Expressivity. Am J Hum Genet. 2018 Jun 7;102(6):1062-1077](https://www.sciencedirect.com/science/article/pii/S0002929718301356)
+
+
