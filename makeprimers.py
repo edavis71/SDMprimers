@@ -90,7 +90,7 @@ def validate_mutation(variant, cdna_pre, cdna_post):
     cdna_pre_c  = copy.deepcopy(cdna_pre)
     protein_pre = ''
     while len(cdna_pre_c) != 0:
-        subseq = codons["".join(cdna_pre_c[0:3])]
+        subseq = codons["".join(cdna_pre_c[:3])]
         protein_pre += subseq
         del cdna_pre_c[0:3]
 
@@ -98,10 +98,10 @@ def validate_mutation(variant, cdna_pre, cdna_post):
     cdna_post_c = copy.deepcopy(cdna_post)
     protein_post= ''
     while len(cdna_post_c) != 0:
-        subseq = codons["".join(cdna_post_c[0:3])]
+        subseq = codons["".join(cdna_post_c[:3])]
         protein_post += subseq
         del cdna_post_c[0:3]
-    
+
     result = False
     # TODO: move warnings to somewhere else so that we can iterate over all variants without doing file io
     # validate based on variant action
@@ -126,7 +126,7 @@ def validate_mutation(variant, cdna_pre, cdna_post):
                 result = True
             else:
                 print("warning: found mismatch. deletion is actually between %d and %d for %s" % (aa_delete_begin_calc, aa_delete_end_calc, variant[5].strip()))
-                
+
     elif act == 'mut':
         aa_position_calculated = int(math.ceil((float(variant[2]) / 3.0)))
         if protein_post[aa_position - 1] == aa_post and protein_pre[aa_position - 1] == aa_pre:
@@ -156,43 +156,35 @@ def reverse_primers(primers_scored):
 
 def calc_gc(primer):
     g_count = 0
-    c_count = 0 
+    c_count = 0
     for p in primer:
-        if p == 'G':
-            g_count += 1
         if p == 'C':
             c_count += 1
+        elif p == 'G':
+            g_count += 1
     total_count = g_count + c_count
-    my_score = (float(total_count) / float(len(primer))) * 100
-    return my_score
+    return (float(total_count) / float(len(primer))) * 100
 
 def calc_tm(primer, gc_score):
     g_count = 0
-    c_count = 0 
-    a_count = 0 
-    t_count = 0 
+    c_count = 0
+    a_count = 0
+    t_count = 0
     for p in primer:
-        if p == 'G':
-            g_count += 1
-        if p == 'C':
-            c_count += 1
         if p == 'A':
             a_count += 1
-        if p == 'T':
+        elif p == 'C':
+            c_count += 1
+        elif p == 'G':
+            g_count += 1
+        elif p == 'T':
             t_count += 1
-    # score = (81.5 + (.41*gc_score) - 675/len(primer)) - (float(1)/float(len(primer))) * 100
-    # below formula is for basic Tm
-    score = 64.9 + 41*(((g_count + c_count) - 16.4) / len(primer)) 
-    return score
+    return 64.9 + 41*(((g_count + c_count) - 16.4) / len(primer))
 
 def count_gc(primer):
-    gc_count = 0
     # only count G and C in the last 5 bases
     primer = primer[-5:]
-    for p in primer:
-        if p == 'G' or p == 'C':
-            gc_count += 1
-    return gc_count
+    return sum(p in ['G', 'C'] for p in primer)
 
 def score_primers(primers):
     vars_final = {}
@@ -229,7 +221,7 @@ def do_mutation(vars, cdna):
             for i in range(len(val)):
                 cdna_copy.insert(idx+i, val[i])
         elif act == "del":
-            for i in range(len(val)):
+            for _ in range(len(val)):
                 del cdna_copy[idx-1]
         elif act == "mut":
             cdna_copy[idx - 1] = val
